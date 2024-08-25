@@ -38,9 +38,9 @@ prompt="Generate a git commit message for changes in these files: $staged_files.
 commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
--n 50 \
+-n 24 \
 --temp 3.1 \
---top-k 500 \
+--top-k 100 \
 --top-p 0.9 \
 --repeat-penalty 1.1 \
 --repeat-last-n 64 \
