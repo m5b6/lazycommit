@@ -53,7 +53,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-commit_subject=$(echo "$commit_message" )
+commit_subject=$(echo "$commit_message" | grep -E '^\[.*\].*' | head -n 1)
+
+if [ -z "$commit_subject" ]; then
+    print_color "YELLOW" "⚠️ Generated message didn't match expected format. Using a default message."
+    commit_subject="🤖 Changed $staged_files - Automatic commit"
+else
+    commit_subject=$(echo "$commit_subject" | cut -c 1-50)
+fi
 
 print_color "GREEN" "✅ Commit message generated:"
 echo "Subject: $commit_subject"
