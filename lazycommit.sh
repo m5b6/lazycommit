@@ -51,7 +51,7 @@ emoji="🤖"
 
 # Generate joke
 joke_prompt="You are an expert joke teller. say a one-line joke or pun related to these changed files: $staged_files."
-joke=$(generate_llama_response "$joke_prompt" 15 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+joke=$(generate_llama_response "$joke_prompt" 25 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 # Combine components
 commit_message="$emoji $joke"
