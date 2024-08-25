@@ -45,14 +45,11 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-# Fixed robot emoji
-emoji="🤖"
+emoji="[🤖]"
 
-# Generate joke
 joke_prompt="Say a short coding joke related to $staged_files:"
 joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-# Combine components
 commit_message="$emoji $joke"
 
 print_color "GREEN" "✅ Commit message generated:"
