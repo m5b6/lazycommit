@@ -6,7 +6,6 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
-
 MODEL_PATH="models/llama31.gguf"
 
 print_color() {
@@ -51,7 +50,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 emoji="🤖"
 
 # Generate joke
-joke_prompt="You are an expert joke teller. say a one-line joke or pun related to these changed files: $staged_files."
+joke_prompt="Say a joke  $staged_files."
 joke=$(generate_llama_response "$joke_prompt" 25 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 # Combine components
