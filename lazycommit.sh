@@ -6,7 +6,7 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-MODEL_PATH="models/model.gguf"
+MODEL_PATH="models/llama3.gguf"
 
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
@@ -31,7 +31,7 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief joke]'. Keep it under 50 characters. Only output the commit message, nothing else."
+prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief joke]'. Only output one line, the commit message, nothing else."
 
 
 
@@ -39,8 +39,8 @@ commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
 -n 50 \
---temp 1.1 \
---top-k 40 \
+--temp 3.1 \
+--top-k 500 \
 --top-p 0.9 \
 --repeat-penalty 1.1 \
 --repeat-last-n 64 \
