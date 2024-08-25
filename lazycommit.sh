@@ -23,8 +23,8 @@ generate_llama_response() {
     -m "$MODEL_PATH" \
     -p "$prompt" \
     -n "$num_tokens" \
-    --temp 1.1 \
-    --top-k 50 \
+    --temp 10.1 \
+    --top-k 150 \
     --top-p 1 \
     --threads 8 \
     --log-disable \
@@ -51,7 +51,7 @@ emoji="🤖"
 
 # Generate joke
 joke_prompt="Create a short, one-line joke or pun related to these changed files: $staged_files. Keep it under 40 characters."
-joke=$(generate_llama_response "$joke_prompt" 15 | tr -d '\n')
+joke=$(generate_llama_response "$joke_prompt" 15 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 # Combine components
 commit_message="$emoji $joke"
