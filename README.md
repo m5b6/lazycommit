@@ -1,4 +1,4 @@
-generate a random commit message for your staged files and push it immediately.
+locally infere  a random commit message for your staged files and push it immediately.
 
 use at your own risk.
 
