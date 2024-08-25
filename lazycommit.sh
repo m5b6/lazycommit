@@ -27,7 +27,8 @@ print_color "BLUE" "🤖 Generating commit message..."
 commit_message=$(llama \
 -m model.gguf \
 -p "Generate a concise and informative Git commit message for the following staged changes: $staged_changes" \
--n 128 \
+-n 12 \
+--ctx-size 512 \
 --log-disable --no-display-prompt
 )
 
