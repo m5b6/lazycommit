@@ -31,7 +31,7 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="You are ONLY A Git commit message generator. You are not conversating. Your ONLY task is to create a single commit  message for the following changed files:
+prompt="You are ONLY A Git commit message generator Your ONLY task is to create a single commit  message for the following changed files:
 
 $staged_files
 
@@ -52,7 +52,7 @@ commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
 -n 15 \
---temp 1.8 \
+--temp 10.8 \
 --top-k 100 \
 --top-p 1 \
 --threads 8 \
