@@ -1,12 +1,16 @@
 #!/bin/bash
 
+# Get the directory of the script for model and log file
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
-MODEL_PATH="models/llama3.gguf"
-COMMIT_LOG="commits.log"
+
+MODEL_PATH="$SCRIPT_DIR/models/llama3.gguf"
+COMMIT_LOG="$SCRIPT_DIR/commits.log"
 
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
@@ -23,15 +27,21 @@ generate_llama_response() {
     -m "$MODEL_PATH" \
     -p "$prompt" \
     -n "$num_tokens" \
-    --temp 1.1 \
+    --temp 0.9 \
     --top-k 40 \
-    --top-p 0.9 \
+    --top-p 0.95 \
     --threads 8 \
     --log-disable 
 }
 
 if [ ! -f "$MODEL_PATH" ]; then
     print_color "RED" "❌ Error: Model file not found at $MODEL_PATH"
+    exit 1
+fi
+
+# Check if current directory is a git repository
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    print_color "RED" "❌ Error: Not a git repository. Please run this script from a git repository."
     exit 1
 fi
 
@@ -42,32 +52,31 @@ if [ -z "$staged_files" ]; then
     exit 1
 fi
 
+# Read or initialize the commit counter
 if [ -f "$COMMIT_LOG" ]; then
     commit_count=$(cat "$COMMIT_LOG")
 else
     commit_count=0
 fi
 
+# Increment the counter
 ((commit_count++))
 
+# Save the new count
 echo $commit_count > "$COMMIT_LOG"
 
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-tag="[#$commit_count]"
+tag="[lazycommit #$commit_count] "
 
-joke_prompt="have an existential crisis and question the meaning of life."
-
-joke=$(generate_llama_response "$joke_prompt" 150 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/'"$joke_prompt"'//g')
-
-github_username=$(git config user.name)
+joke_prompt="Create a short, one-line joke or pun related to these changed files: $staged_files. Keep it under 40 characters."
+joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
 full_commit_message="$commit_message
 
-
-$github_username has lazily commited $commit_count times."
+I have lazily committed $commit_count times"
 
 print_color "GREEN" "✅ Commit message generated:"
 echo "Joke: $joke"
