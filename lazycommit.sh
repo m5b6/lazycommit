@@ -21,25 +21,17 @@ if [ ! -f "$MODEL_PATH" ]; then
     exit 1
 fi
 
-#print_divider
-#print_color "BLUE" "🔍 Checking for staged changes..."
-#staged_files=$(git diff --cached --name-only | tr '\n' ' ')
-#
-#if [ -z "$staged_files" ]; then
-#    print_color "YELLOW" "⚠️ No staged changes found. Please stage your changes using 'git add' first."
-#    exit 1
-#fi
+staged_files=$(git diff --cached --name-only | tr '\n' ' ')
 
-#print_color "GREEN" "✅ Found staged changes in the following files:"
-#echo "$staged_files"
+if [ -z "$staged_files" ]; then
+    print_color "YELLOW" "⚠️ No staged changes found. Please stage your changes using 'git add' first."
+    exit 1
+fi
 
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief description or joke]'. Keep it under 50 characters. Only output the commit message, nothing else."
-
-print_color "YELLOW" "Complete prompt being sent to the model:"
-echo "$prompt"
+prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief joke]'. Keep it under 50 characters. Only output the commit message, nothing else."
 
 commit_message=$(llama \
 -m "$MODEL_PATH" \
