@@ -21,7 +21,6 @@ generate_llama_response() {
     local num_tokens="$2"
     llama \
     -m "$MODEL_PATH" \
-    -p "$prompt" \
     -n "$num_tokens" \
     --temp 0.9 \
     --top-k 40 \
