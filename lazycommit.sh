@@ -17,11 +17,11 @@ print_divider() {
 }
 
 generate_llama_response() {
-    local prompt="$1"
-    local num_tokens="$2"
     llama \
     -m "$MODEL_PATH" \
-    -n "$num_tokens" \
+    -i -ins \
+    -ngl 35 \ 
+    --color -c 2048 --temp 0.7 --repeat_penalty 1.1 \
     --log-disable 
 }
 
