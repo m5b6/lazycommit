@@ -27,8 +27,7 @@ generate_llama_response() {
     --top-k 40 \
     --top-p 0.95 \
     --threads 8 \
-    --log-disable \
-    --no-display-prompt
+    --log-disable 
 }
 
 if [ ! -f "$MODEL_PATH" ]; then
