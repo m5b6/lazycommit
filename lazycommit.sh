@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
-MODEL_PATH="models/meangirl.gguf"
+MODEL_PATH="models/llama3.gguf"
 COMMIT_LOG="commits.log"
 
 print_color() {
@@ -17,9 +17,16 @@ print_divider() {
 }
 
 generate_llama_response() {
+    local prompt="$1"
+    local num_tokens="$2"
     llama \
     -m "$MODEL_PATH" \
-    -ngl 35 \ 
+    -p "$prompt" \
+    -n "$num_tokens" \
+    --temp 0.9 \
+    --top-k 40 \
+    --top-p 0.95 \
+    --threads 8 \
     --log-disable 
 }
 
@@ -50,7 +57,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 tag="❮ 🤖 lazycommit #$commit_count ❯"
 
-joke_prompt="random commit message:"
+joke_prompt="say a random joke"
 joke=$(generate_llama_response "$joke_prompt" 10 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
