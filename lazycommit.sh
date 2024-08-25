@@ -42,17 +42,14 @@ if [ -z "$staged_files" ]; then
     exit 1
 fi
 
-# Read or initialize the commit counter
 if [ -f "$COMMIT_LOG" ]; then
     commit_count=$(cat "$COMMIT_LOG")
 else
     commit_count=0
 fi
 
-# Increment the counter
 ((commit_count++))
 
-# Save the new count
 echo $commit_count > "$COMMIT_LOG"
 
 print_divider
@@ -60,7 +57,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 tag="[lazycommit #$commit_count] "
 
-joke_prompt="lorem ipsum"
+joke_prompt="random commit message:"
 joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
