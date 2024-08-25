@@ -55,10 +55,10 @@ echo $commit_count > "$COMMIT_LOG"
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-tag="[lazycommit #$commit_count] "
+tag="《 🤖 lazycommit #$commit_count 🤖 》 "
 
 joke_prompt="random commit message:"
-joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+joke=$(generate_llama_response "$joke_prompt" 10 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
 full_commit_message="$commit_message
