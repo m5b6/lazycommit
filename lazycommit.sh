@@ -57,7 +57,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 tag="❮ 🤖 lazycommit #$commit_count ❯"
 
-joke_prompt="SYSTEM: Tell me a joke. LLAMA:"
+joke_prompt="SYSTEM: Tell me a joke. LLAMA: OKAY! HERE IT GOES! THE JOKE IS "
 joke=$(generate_llama_response "$joke_prompt" 50 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
