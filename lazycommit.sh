@@ -19,9 +19,8 @@ print_divider() {
 generate_llama_response() {
     llama \
     -m "$MODEL_PATH" \
-    -i -ins \
     -ngl 35 \ 
-    --color -c 2048 --temp 0.7 --repeat_penalty 1.1 \
+    -c 2048 \
     --log-disable 
 }
 
