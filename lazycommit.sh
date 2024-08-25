@@ -37,7 +37,7 @@ commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
 -n 50 \
---temp 0.1 \
+--temp 1.1 \
 --top-k 40 \
 --top-p 0.9 \
 --repeat-penalty 1.1 \
