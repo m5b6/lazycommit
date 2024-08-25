@@ -47,7 +47,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 emoji="[🤖]"
 
-joke_prompt="YOU ARE AN EXPERT JOKE TELLER"
+joke_prompt=""
 joke=$(generate_llama_response "$joke_prompt" 20 )
 
 commit_message="$emoji $joke"
