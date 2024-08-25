@@ -47,7 +47,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 emoji="[🤖]"
 
-joke_prompt="Say a short coding joke related to $staged_files:"
+joke_prompt="YOU ARE AN EXPERT JOKE TELLER. TELL ME A JOKE."
 joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$emoji $joke"
