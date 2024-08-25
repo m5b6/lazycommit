@@ -23,7 +23,7 @@ generate_llama_response() {
     -m "$MODEL_PATH" \
     -p "$prompt" \
     -n "$num_tokens" \
-    --temp 0.95 \
+    --temp 1.1 \
     --top-k 40 \
     --top-p 0.9 \
     --threads 8 \
