@@ -1,11 +1,14 @@
 # Models
 
-Put your models in ./models. Currently testing with Llama3.
+Put your llama.cpp compatible models in ./models. Currently testing with Llama3 and others.
 
-If using huggingface CLI, just do the following:
+use at your own risk.
+
+# Usage
 
 ```bash
-cd models
-
-huggingface-cli download QuantFactory/Meta-Llama-3-8B-Instruct-GGUF Meta-Llama-3-8B-Instruct.Q2_K.gguf --local-dir . --local-dir-use-symlinks False
+git add {files you want to add}
+./lazycommit.sh
 ```
+
+<img src="image.png" width="200" height="200" />
