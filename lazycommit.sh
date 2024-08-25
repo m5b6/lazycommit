@@ -62,10 +62,13 @@ why did the chicken cross the road?
 "
 joke=$(generate_llama_response "$joke_prompt" 50 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
+github_username=$(git config user.name)
+
 commit_message="$tag $joke"
 full_commit_message="$commit_message
 
-I have lazily committed $commit_count times"
+
+$github_username has lazily commited $commit_count times."
 
 print_color "GREEN" "✅ Commit message generated:"
 echo "Joke: $joke"
