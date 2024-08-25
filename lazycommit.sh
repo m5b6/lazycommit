@@ -6,7 +6,8 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-MODEL_PATH="models/llama3.gguf"
+#MODEL_PATH="models/llama3.gguf"
+MODEL_PATH="models/mistral7binstruct.gguf"
 
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
@@ -52,8 +53,8 @@ commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
 -n 15 \
---temp 10.8 \
---top-k 100 \
+--temp 1.1 \
+--top-k 50 \
 --top-p 1 \
 --threads 8 \
 --log-disable \
