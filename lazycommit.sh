@@ -6,7 +6,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
-MODEL_PATH="models/llama31.gguf"
+MODEL_PATH="models/llama3.gguf"
 
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
