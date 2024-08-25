@@ -6,7 +6,6 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-#MODEL_PATH="models/llama3.gguf"
 MODEL_PATH="models/llama3.gguf"
 
 print_color() {
@@ -15,6 +14,21 @@ print_color() {
 
 print_divider() {
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+}
+
+generate_llama_response() {
+    local prompt="$1"
+    local num_tokens="$2"
+    llama \
+    -m "$MODEL_PATH" \
+    -p "$prompt" \
+    -n "$num_tokens" \
+    --temp 1.1 \
+    --top-k 50 \
+    --top-p 1 \
+    --threads 8 \
+    --log-disable \
+    --no-display-prompt
 }
 
 if [ ! -f "$MODEL_PATH" ]; then
@@ -30,43 +44,23 @@ if [ -z "$staged_files" ]; then
 fi
 
 print_divider
-print_color "BLUE" "🤖 Generating commit message..."
+print_color "BLUE" "🤖 Generating commit message components..."
 
-prompt="You are an EXPERT ONE LINE Git commit message generator Your ONLY task is to create a single line commit message for the following changed files:
+# Generate emoji
+emoji_prompt="Generate a single emoji that best represents changes to these files: $staged_files"
+emoji=$(generate_llama_response "$emoji_prompt" 5 | tr -d '[:space:]')
 
-$staged_files
+# Generate joke
+joke_prompt="Create a short, one-line joke or pun related to these changed files: $staged_files. Keep it under 40 characters."
+joke=$(generate_llama_response "$joke_prompt" 15 | tr -d '\n')
 
-1. The commit message must be in the format: \"[emoji] Brief description - Short joke\"
-2. Include one relevant emoji at the start
-3. Provide a brief description or joke of what was done, followed by a hyphen and a short explanation or impact
-4. Do not include any additional text, explanations, or formatting
+# Combine components
+commit_message="$emoji $joke"
 
-Generate only the one line of commit message. Do not include any other text, formatting, line breaks, symbols or explanations in your response. "
-
-print_divider
-print_color "YELLOW" "Prompt:"
-echo "$prompt"
-print_divider
-
-commit_message=$(llama \
--m "$MODEL_PATH" \
--p "$prompt" \
--n 15 \
---temp 1.1 \
---top-k 50 \
---top-p 1 \
---threads 8 \
---log-disable \
---no-display-prompt
-)
-
-if [ $? -ne 0 ]; then
-    print_color "RED" "❌ Error: Failed to generate commit message. Make sure llama is installed and the model path is correct."
-    exit 1
-fi
-
-print_color "GREEN" "✅ Commit message generated:"
-echo "$commit_message"
+print_color "GREEN" "✅ Commit message components generated:"
+echo "Emoji: $emoji"
+echo "Joke: $joke"
+echo "Combined: $commit_message"
 
 print_divider
 print_color "BLUE" "📦 Committing changes..."
