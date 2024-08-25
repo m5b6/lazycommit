@@ -31,7 +31,7 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief joke]'. Only output one line, the commit message, nothing else."
+prompt="You must only say a brief joke related to the following files: $staged_files." 
 
 
 
