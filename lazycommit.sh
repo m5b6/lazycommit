@@ -31,9 +31,21 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="You must only say a brief joke related to the following files: $staged_files." 
+prompt="You are a Git commit message generator. Your ONLY task is to create a single, concise, and informative commit message for the following code changes:
+$staged_files
+Instructions:
+1. The commit message must be in the format: \"[emoji] Brief description - Short explanation\"
+2. Use present tense and imperative mood (e.g., \"Add\" not \"Added\" or \"Adds\")
+3. Keep the entire message under 50 characters
+4. Include one relevant emoji at the start
+5. Provide a brief description of what was done, followed by a hyphen and a short explanation or impact
+6. Do not include any additional text, explanations, or formatting
+Generate only the commit message. Do not include any other text or explanations in your response."
 
-
+print_divider
+print_color "YELLOW" "Prompt:"
+echo "$prompt"
+print_divider
 
 commit_message=$(llama \
 -m "$MODEL_PATH" \
@@ -51,27 +63,13 @@ if [ $? -ne 0 ]; then
     print_color "RED" "❌ Error: Failed to generate commit message. Make sure llama is installed and the model path is correct."
     exit 1
 fi
-print_divider
-print_divider
-echo "PROMPT: $prompt"
-
-
-print_divider
-print_divider
-
-
-echo "$commit_message"
-print_divider
-print_divider
-
-commit_subject=$(echo "$commit_message" | tail -n 1 | cut -c 1-50)
 
 print_color "GREEN" "✅ Commit message generated:"
-echo "Subject: $commit_subject"
+echo "$commit_message"
 
 print_divider
 print_color "BLUE" "📦 Committing changes..."
-git commit -m "$commit_subject"
+git commit -m "$commit_message"
 
 print_divider
 print_color "BLUE" "🚀 Pushing changes to remote repository..."
@@ -84,5 +82,5 @@ fi
 
 print_divider
 print_color "GREEN" "🎉 All done! Your changes have been committed and pushed with the following message:"
-echo "\"$commit_subject\""
+echo "\"$commit_message\""
 print_divider
