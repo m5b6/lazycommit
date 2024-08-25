@@ -31,8 +31,10 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="You are a Git commit message generator. Your ONLY task is to create a single, concise, and informative commit message for the following code changes:
+prompt="You are a Git commit message generator. Your ONLY task is to create a single, concise, and informative commit message for the following changed files:
+
 $staged_files
+
 Instructions:
 1. The commit message must be in the format: \"[emoji] Brief description - Short explanation\"
 2. Use present tense and imperative mood (e.g., \"Add\" not \"Added\" or \"Adds\")
