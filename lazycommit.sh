@@ -44,11 +44,10 @@ if [ -z "$staged_files" ]; then
 fi
 
 print_divider
-print_color "BLUE" "🤖 Generating commit message components..."
+print_color "BLUE" "🤖 Generating commit message..."
 
-# Generate emoji
-emoji_prompt="Generate a single emoji that best represents changes to these files: $staged_files"
-emoji=$(generate_llama_response "$emoji_prompt" 5 | tr -d '[:space:]')
+# Fixed robot emoji
+emoji="🤖"
 
 # Generate joke
 joke_prompt="Create a short, one-line joke or pun related to these changed files: $staged_files. Keep it under 40 characters."
@@ -57,7 +56,7 @@ joke=$(generate_llama_response "$joke_prompt" 15 | tr -d '\n')
 # Combine components
 commit_message="$emoji $joke"
 
-print_color "GREEN" "✅ Commit message components generated:"
+print_color "GREEN" "✅ Commit message generated:"
 echo "Emoji: $emoji"
 echo "Joke: $joke"
 echo "Combined: $commit_message"
