@@ -40,7 +40,7 @@ Instructions:
 4. Include one relevant emoji at the start
 5. Provide a brief description of what was done, followed by a hyphen and a short explanation or impact
 6. Do not include any additional text, explanations, or formatting
-Generate only the commit message. Do not include any other text or explanations in your response."
+Generate only the commit message. Do not include any other text, formatting, line breaks, symbols or explanations in your response."
 
 print_divider
 print_color "YELLOW" "Prompt:"
