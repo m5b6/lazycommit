@@ -50,7 +50,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 emoji="🤖"
 
 # Generate joke
-joke_prompt="Say a short commit joke related to the following files: $staged_files."
+joke_prompt="You are an expert joke teller. Say only a short coding joke related to the following files: $staged_files. Do not say anything except the joke"
 joke=$(generate_llama_response "$joke_prompt" 40 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 # Combine components
