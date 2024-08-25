@@ -26,7 +26,7 @@ echo "$staged_changes"
 print_color "BLUE" "🤖 Generating commit message..."
 commit_message=$(llama \
 -m model.gguf \
--p "Generate a concise and informative Git commit message for the following staged changes: $staged_changes" \
+-p "Generate very short and funny commit message for the following changes: $staged_changes" \
 -n 12 \
 --ctx-size 512 \
 --log-disable --no-display-prompt
@@ -40,7 +40,7 @@ echo "Full message:"
 echo "$commit_message"
 
 print_color "BLUE" "📦 Committing changes..."
-git commit -m "$commit_subject" -m "$commit_message"
+git commit -m "$commit_subject"
 
 print_color "BLUE" "🚀 Pushing changes to remote repository..."
 if git push; then
