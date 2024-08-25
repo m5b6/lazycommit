@@ -6,7 +6,6 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-# Change this to the path of your model file
 MODEL_PATH="models/model.gguf"
 
 print_color() {
@@ -17,7 +16,6 @@ print_divider() {
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
 
-# Check if the model file exists
 if [ ! -f "$MODEL_PATH" ]; then
     print_color "RED" "❌ Error: Model file not found at $MODEL_PATH"
     exit 1
@@ -38,10 +36,8 @@ echo "$staged_files"
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-# Create the prompt
 prompt="Commit message for these files: $staged_files"
 
-# Print the complete prompt
 print_color "YELLOW" "Complete prompt being sent to the model:"
 echo "$prompt"
 
@@ -51,7 +47,14 @@ commit_message=$(llama \
 -n 12 \
 --temp 0.3 \
 --ctx-size 1024 \
---log-disable --no-display-prompt
+--top-k 40 \
+--top-p 0.9 \
+--repeat-penalty 1.1 \
+--repeat-last-n 64 \
+--batch-size 512 \
+--threads 4 \
+--log-disable \
+--no-display-prompt
 )
 
 if [ $? -ne 0 ]; then
