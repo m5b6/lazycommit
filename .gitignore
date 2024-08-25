@@ -1,2 +1,2 @@
-model.gguf
+models/*.gguf
 main.log

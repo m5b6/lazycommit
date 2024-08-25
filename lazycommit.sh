@@ -6,6 +6,9 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
+# Change this to the path of your model file
+MODEL_PATH="models/model.gguf"
+
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
 }
@@ -14,27 +17,38 @@ print_divider() {
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
 
+# Check if the model file exists
+if [ ! -f "$MODEL_PATH" ]; then
+    print_color "RED" "❌ Error: Model file not found at $MODEL_PATH"
+    exit 1
+fi
+
 print_divider
 print_color "BLUE" "🔍 Checking for staged changes..."
-staged_changes=$(git diff --cached --unified=0)
+staged_files=$(git diff --cached --name-only | tr '\n' ' ')
 
-if [ -z "$staged_changes" ]; then
+if [ -z "$staged_files" ]; then
     print_color "YELLOW" "⚠️ No staged changes found. Please stage your changes using 'git add' first."
     exit 1
 fi
 
-print_color "GREEN" "✅ Found staged changes:"
-echo "$staged_changes"
+print_color "GREEN" "✅ Found staged changes in the following files:"
+echo "$staged_files"
 
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 commit_message=$(llama \
--m model.gguf \
--p "Very short and funny commit message for these changes: $staged_changes" \
+-m "$MODEL_PATH" \
+-p "Very short and funny commit message for changes in these files: $staged_files" \
 -n 12 \
---ctx-size 512 \
+--ctx-size 8000 \
 --log-disable --no-display-prompt
 )
+
+if [ $? -ne 0 ]; then
+    print_color "RED" "❌ Error: Failed to generate commit message. Make sure llama is installed and the model path is correct."
+    exit 1
+fi
 
 commit_subject=$(echo "$commit_message" | head -n 1 | cut -c 1-50)
 
