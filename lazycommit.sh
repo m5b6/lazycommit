@@ -57,7 +57,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 tag="⧛lazycommit $commit_count⧚"
 
-joke_prompt="why did the chicken cross the road?? have an existential crisis and question the meaning of life."
+joke_prompt="have an existential crisis and question the meaning of life."
 
 joke=$(generate_llama_response "$joke_prompt" 200 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
