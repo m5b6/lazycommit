@@ -33,6 +33,8 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief joke]'. Keep it under 50 characters. Only output the commit message, nothing else."
 
+
+
 commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
@@ -54,9 +56,14 @@ if [ $? -ne 0 ]; then
 fi
 print_divider
 print_divider
+echo "PROMPT: $prompt"
+
+
 print_divider
+print_divider
+
+
 echo "$commit_message"
-print_divider
 print_divider
 print_divider
 
