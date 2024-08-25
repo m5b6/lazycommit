@@ -39,9 +39,10 @@ print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 commit_message=$(llama \
 -m "$MODEL_PATH" \
--p "Very short and funny commit message for changes in these files: $staged_files" \
+-p "Very short plain text commit message for changes in these files: $staged_files" \
 -n 12 \
---ctx-size 8000 \
+--temp 0.3 \
+--ctx-size 1024 \
 --log-disable --no-display-prompt
 )
 
