@@ -53,6 +53,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo "$commit_message"
+
 commit_subject=$(echo "$commit_message" | tail -n 1 | cut -c 1-50)
 
 print_color "GREEN" "✅ Commit message generated:"
