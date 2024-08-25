@@ -16,21 +16,21 @@ print_divider() {
 
 print_divider
 print_color "BLUE" "🔍 Checking for staged changes..."
-staged_changes=$(git diff --cached --name-only | tr '\n' ' ')
+staged_changes=$(git diff --cached --unified=0)
 
 if [ -z "$staged_changes" ]; then
     print_color "YELLOW" "⚠️ No staged changes found. Please stage your changes using 'git add' first."
     exit 1
 fi
 
-print_color "GREEN" "✅ Found staged changes in the following files:"
+print_color "GREEN" "✅ Found staged changes:"
 echo "$staged_changes"
 
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 commit_message=$(llama \
 -m model.gguf \
--p "Very short and funny commit message for: $staged_changes" \
+-p "Very short and funny commit message for these changes: $staged_changes" \
 -n 12 \
 --ctx-size 512 \
 --log-disable --no-display-prompt
