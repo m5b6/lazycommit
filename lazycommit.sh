@@ -36,7 +36,7 @@ echo "$staged_files"
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="Generate a short, simple, and fun git commit message for changes in these files: $staged_files. The message should be in the format: '[emoji] Changed [files] - [brief description or joke]'. Keep it under 50 characters."
+prompt="Generate a short, simple, and fun git commit message for changes in these files: $staged_files. The message should be in the format: '[emoji] Changed [files] - [brief description or joke]'. Keep it under 50 characters. JUST GIVE THE MESSAGE, DONT HALLUCINATE"
 
 print_color "YELLOW" "Complete prompt being sent to the model:"
 echo "$prompt"
