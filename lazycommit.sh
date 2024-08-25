@@ -52,8 +52,13 @@ if [ $? -ne 0 ]; then
     print_color "RED" "❌ Error: Failed to generate commit message. Make sure llama is installed and the model path is correct."
     exit 1
 fi
-
+print_divider
+print_divider
+print_divider
 echo "$commit_message"
+print_divider
+print_divider
+print_divider
 
 commit_subject=$(echo "$commit_message" | tail -n 1 | cut -c 1-50)
 
