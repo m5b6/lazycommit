@@ -55,7 +55,7 @@ echo $commit_count > "$COMMIT_LOG"
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-tag="⧛lazycommit $commit_count⧚"
+tag="[#$commit_count]"
 
 joke_prompt="have an existential crisis and question the meaning of life."
 
