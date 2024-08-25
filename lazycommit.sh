@@ -20,7 +20,6 @@ generate_llama_response() {
     llama \
     -m "$MODEL_PATH" \
     -ngl 35 \ 
-    -c 2048 \
     --log-disable 
 }
 
