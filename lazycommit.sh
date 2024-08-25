@@ -41,9 +41,9 @@ commit_message=$(llama \
 -n 24 \
 --temp 3.1 \
 --top-k 100 \
---top-p 0.9 \
+--top-p 1 \
 --repeat-penalty 1.1 \
---repeat-last-n 64 \
+--repeat-last-n 128 \
 --batch-size 512 \
 --threads 4 \
 --log-disable \
