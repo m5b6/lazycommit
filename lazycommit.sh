@@ -23,8 +23,8 @@ generate_llama_response() {
     -m "$MODEL_PATH" \
     -p "$prompt" \
     -n "$num_tokens" \
-    --temp 0.9 \
-    --top-k 40 \
+    --temp 0.95 \
+    --top-k 60 \
     --top-p 0.95 \
     --threads 8 \
     --log-disable 
@@ -57,7 +57,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 
 tag="❮ 🤖 lazycommit #$commit_count ❯"
 
-joke_prompt="generate random text"
+joke_prompt="SYSTEM: Tell me a joke. LLAMA:"
 joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
