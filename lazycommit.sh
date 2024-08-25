@@ -51,7 +51,7 @@ commit_message=$(llama \
 -m "$MODEL_PATH" \
 -p "$prompt" \
 -n 15 \
---temp 0.4 \
+--temp 0.8 \
 --top-k 100 \
 --top-p 1 \
 --threads 8 \
