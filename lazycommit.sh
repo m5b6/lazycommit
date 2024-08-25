@@ -37,9 +37,17 @@ echo "$staged_files"
 
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
+
+# Create the prompt
+prompt="Commit message for these files: $staged_files"
+
+# Print the complete prompt
+print_color "YELLOW" "Complete prompt being sent to the model:"
+echo "$prompt"
+
 commit_message=$(llama \
 -m "$MODEL_PATH" \
--p "Very short plain text commit message for changes in these files: $staged_files" \
+-p "$prompt" \
 -n 12 \
 --temp 0.3 \
 --ctx-size 1024 \
