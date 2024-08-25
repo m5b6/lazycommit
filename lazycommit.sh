@@ -21,17 +21,17 @@ if [ ! -f "$MODEL_PATH" ]; then
     exit 1
 fi
 
-print_divider
-print_color "BLUE" "🔍 Checking for staged changes..."
-staged_files=$(git diff --cached --name-only | tr '\n' ' ')
+#print_divider
+#print_color "BLUE" "🔍 Checking for staged changes..."
+#staged_files=$(git diff --cached --name-only | tr '\n' ' ')
+#
+#if [ -z "$staged_files" ]; then
+#    print_color "YELLOW" "⚠️ No staged changes found. Please stage your changes using 'git add' first."
+#    exit 1
+#fi
 
-if [ -z "$staged_files" ]; then
-    print_color "YELLOW" "⚠️ No staged changes found. Please stage your changes using 'git add' first."
-    exit 1
-fi
-
-print_color "GREEN" "✅ Found staged changes in the following files:"
-echo "$staged_files"
+#print_color "GREEN" "✅ Found staged changes in the following files:"
+#echo "$staged_files"
 
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
