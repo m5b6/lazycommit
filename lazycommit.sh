@@ -36,7 +36,7 @@ echo "$staged_files"
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-prompt="Generate a short, simple, and fun git commit message for changes in these files: $staged_files. The message should be in the format: '[emoji] Changed [files] - [brief description or joke]'. Keep it under 50 characters. JUST GIVE THE MESSAGE, DONT HALLUCINATE"
+prompt="Generate a git commit message for changes in these files: $staged_files. The message must be in this exact format, with no additional text: '[emoji] Changed [files] - [brief description or joke]'. Keep it under 50 characters. Only output the commit message, nothing else."
 
 print_color "YELLOW" "Complete prompt being sent to the model:"
 echo "$prompt"
@@ -61,12 +61,15 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-commit_subject=$(echo "$commit_message" | head -n 1 | cut -c 1-50)
+commit_subject=$(echo "$commit_message" | grep -E '^\[.*\] Changed.*-.*' | head -n 1 | cut -c 1-50)
+
+if [ -z "$commit_subject" ]; then
+    print_color "YELLOW" "⚠️ Generated message didn't match expected format. Using a default message."
+    commit_subject="🤖 Changed $staged_files - Automatic commit"
+fi
 
 print_color "GREEN" "✅ Commit message generated:"
 echo "Subject: $commit_subject"
-echo "Full message:"
-echo "$commit_message"
 
 print_divider
 print_color "BLUE" "📦 Committing changes..."
