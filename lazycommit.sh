@@ -45,15 +45,14 @@ fi
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-emoji="[🤖]"
+tag="[lazycommit] "
 
-joke_prompt=""
+joke_prompt="dqwhkbdqwuidnkqhwjbdnihewjbnfwhbfquyewbfiqwbfpiuwqebfiwqbfiqwuebf"
 joke=$(generate_llama_response "$joke_prompt" 20 )
 
-commit_message="$emoji $joke"
+commit_message="$tag $joke"
 
 print_color "GREEN" "✅ Commit message generated:"
-echo "Emoji: $emoji"
 echo "Joke: $joke"
 echo "Combined: $commit_message"
 
