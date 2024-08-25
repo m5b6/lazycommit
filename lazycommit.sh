@@ -1,12 +1,12 @@
 #!/bin/bash
 
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 MODEL_PATH="models/llama3.gguf"
+COMMIT_LOG="commits.log"
 
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
@@ -42,23 +42,39 @@ if [ -z "$staged_files" ]; then
     exit 1
 fi
 
+# Read or initialize the commit counter
+if [ -f "$COMMIT_LOG" ]; then
+    commit_count=$(cat "$COMMIT_LOG")
+else
+    commit_count=0
+fi
+
+# Increment the counter
+((commit_count++))
+
+# Save the new count
+echo $commit_count > "$COMMIT_LOG"
+
 print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 
-tag="[lazycommit] "
+tag="[lazycommit #$commit_count] "
 
-joke_prompt="dqwhkbdqwuidnkqhwjbdnihewjbnfwhbfquyewbfiqwbfpiuwqebfiwqbfiqwuebf"
-joke=$(generate_llama_response "$joke_prompt" 20 )
+joke_prompt="lorem ipsum"
+joke=$(generate_llama_response "$joke_prompt" 20 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 commit_message="$tag $joke"
+full_commit_message="$commit_message
+
+I have lazily committed $commit_count times"
 
 print_color "GREEN" "✅ Commit message generated:"
 echo "Joke: $joke"
-echo "Combined: $commit_message"
+echo "Combined: $full_commit_message"
 
 print_divider
 print_color "BLUE" "📦 Committing changes..."
-git commit -m "$commit_message"
+git commit -m "$full_commit_message"
 
 print_divider
 print_color "BLUE" "🚀 Pushing changes to remote repository..."
@@ -71,5 +87,5 @@ fi
 
 print_divider
 print_color "GREEN" "🎉 All done! Your changes have been committed and pushed with the following message:"
-echo "\"$commit_message\""
+echo "$full_commit_message"
 print_divider
