@@ -7,7 +7,7 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-MODEL_PATH="models/mistralnemo.gguf"
+MODEL_PATH="models/llama31.gguf"
 
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
