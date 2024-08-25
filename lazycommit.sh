@@ -23,9 +23,9 @@ generate_llama_response() {
     -m "$MODEL_PATH" \
     -p "$prompt" \
     -n "$num_tokens" \
-    --temp 10.1 \
+    --temp 20.1 \
     --top-k 150 \
-    --top-p 1 \
+    --top-p 2 \
     --threads 8 \
     --log-disable \
     --no-display-prompt
@@ -50,7 +50,7 @@ print_color "BLUE" "🤖 Generating commit message..."
 emoji="🤖"
 
 # Generate joke
-joke_prompt="Create a short, one-line joke or pun related to these changed files: $staged_files. Keep it under 40 characters."
+joke_prompt="You are an expert joke teller. say a one-line joke or pun related to these changed files: $staged_files."
 joke=$(generate_llama_response "$joke_prompt" 15 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 # Combine components
