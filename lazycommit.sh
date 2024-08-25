@@ -22,10 +22,6 @@ generate_llama_response() {
     llama \
     -m "$MODEL_PATH" \
     -n "$num_tokens" \
-    --temp 0.9 \
-    --top-k 40 \
-    --top-p 0.95 \
-    --threads 8 \
     --log-disable 
 }
 
