@@ -23,9 +23,9 @@ generate_llama_response() {
     -m "$MODEL_PATH" \
     -p "$prompt" \
     -n "$num_tokens" \
-    --temp 20.1 \
-    --top-k 150 \
-    --top-p 2 \
+    --temp 0.8 \
+    --top-k 40 \
+    --top-p 0.95 \
     --threads 8 \
     --log-disable \
     --no-display-prompt
@@ -50,8 +50,8 @@ print_color "BLUE" "🤖 Generating commit message..."
 emoji="🤖"
 
 # Generate joke
-joke_prompt="Say a joke  $staged_files."
-joke=$(generate_llama_response "$joke_prompt" 25 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+joke_prompt="Say a joke related to  $staged_files."
+joke=$(generate_llama_response "$joke_prompt" 40 | tr -d '\n\r\t`*_' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 # Combine components
 commit_message="$emoji $joke"
