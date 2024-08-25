@@ -1,17 +1,20 @@
 #!/bin/bash
 
-# ANSI color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m' 
 
-# Function to print colored output
 print_color() {
     printf "${!1}%s${NC}\n" "$2"
 }
 
+print_divider() {
+    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+}
+
+print_divider
 print_color "BLUE" "🔍 Checking for staged changes..."
 staged_changes=$(git diff --cached --name-only | tr '\n' ' ')
 
@@ -23,10 +26,11 @@ fi
 print_color "GREEN" "✅ Found staged changes in the following files:"
 echo "$staged_changes"
 
+print_divider
 print_color "BLUE" "🤖 Generating commit message..."
 commit_message=$(llama \
 -m model.gguf \
--p "Generate very short and funny commit message for the following changes: $staged_changes" \
+-p "Very short and funny commit message for: $staged_changes" \
 -n 12 \
 --ctx-size 512 \
 --log-disable --no-display-prompt
@@ -39,9 +43,11 @@ echo "Subject: $commit_subject"
 echo "Full message:"
 echo "$commit_message"
 
+print_divider
 print_color "BLUE" "📦 Committing changes..."
 git commit -m "$commit_subject"
 
+print_divider
 print_color "BLUE" "🚀 Pushing changes to remote repository..."
 if git push; then
     print_color "GREEN" "✅ Changes successfully committed and pushed!"
@@ -50,5 +56,7 @@ else
     exit 1
 fi
 
+print_divider
 print_color "GREEN" "🎉 All done! Your changes have been committed and pushed with the following message:"
 echo "\"$commit_subject\""
+print_divider
